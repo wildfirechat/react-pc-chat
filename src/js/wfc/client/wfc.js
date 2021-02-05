@@ -137,6 +137,20 @@ export class WfcManager {
     }
 
     /**
+    * 设备从睡眠中恢复
+    */
+    onAppResume() {
+      impl.onAppResume();
+    }
+
+    /**
+    * 设备进入睡眠状态
+    */
+    onAppSuspend() {
+      impl.onAppSuspend();
+    }
+
+    /**
      * 已废弃，请使用{@link getFavGroupList}
      * 获取我保存到通讯录的群组信息列表
      * @returns {[GroupInfo]} 参考{@link GroupInfo}
