@@ -11,8 +11,9 @@ import MessageConfig from "../../client/messageConfig";
 import CallByeMessageContent from "../messages/callByeMessageContent";
 import DetectRTC from 'detectrtc';
 import Config from "../../../config";
-import {numberValue, longValue} from '../../util/longUtil'
+import {longValue, numberValue} from '../../util/longUtil'
 import CallEndReason from './callEndReason'
+import Conversation from "../../../wfc/model/conversation";
 
 const path = require('path');
 
@@ -70,7 +71,11 @@ export class AvEngineKitProxy {
 
     sendConferenceRequestListener = (event, request) =>{
         wfc.sendConferenceRequest(request.sessionId ? request.sessionId : 0, request.roomId ? request.roomId : '', request.request, request.data, (errorCode, res) => {
-            this.emitToVoip('sendConferenceRequestResult', {error: errorCode, sendConferenceRequestId: request.sendConferenceRequestId, response: res})
+            this.emitToVoip('sendConferenceRequestResult', {
+                error: errorCode,
+                sendConferenceRequestId: request.sendConferenceRequestId,
+                response: res
+            })
         });
     }
 
@@ -95,10 +100,13 @@ export class AvEngineKitProxy {
                 return;
             }
         }
-        wfc.sendConversationMessage(msg.conversation, content, msg.toUsers, (messageId, timestamp) => {
+        let conversation = new Conversation(msg.conversation.type, msg.conversation.target, msg.conversation.line)
+        wfc.sendConversationMessage(conversation, content, msg.toUsers, (messageId, timestamp) => {
 
+            // do nothing
         }, (uploaded, total) => {
 
+            // do nothing
         }, (messageUid, timestamp) => {
             this.emitToVoip('sendMessageResult', {
                 error: 0,
@@ -117,7 +125,8 @@ export class AvEngineKitProxy {
 
     // 收到消息时，timestamp已经过修正，后面使用时，不用考虑和服务器的时间差
     onReceiveMessage = (msg) => {
-        if (!this.isSupportVoip || !this.hasSpeaker || !this.hasMicrophone) {
+        //if (!this.isSupportVoip || !this.hasSpeaker || !this.hasMicrophone) {
+        if (!this.isSupportVoip) {
             console.log('not support voip, just ignore voip message')
             return;
         }
@@ -164,6 +173,8 @@ export class AvEngineKitProxy {
                     this.callId = content.callId;
                     this.participants.push(...content.targetIds);
                     this.participants.push(msg.from);
+                    // 参与者不包含自己
+                    this.participants = this.participants.filter(uid => uid !== selfUserInfo.uid)
 
                     if (msg.conversation.type === ConversationType.Single) {
                         participantUserInfos = [wfc.getUserInfo(msg.from)];
@@ -269,15 +280,16 @@ export class AvEngineKitProxy {
             return ;
         }
         if(!this.isSupportVoip || !this.hasSpeaker || !this.hasMicrophone || (!audioOnly && !this.hasWebcam)){
-            console.log('not support voip', this.isSupportVoip, this.hasSpeaker);
+            console.log('not support voip', this.isSupportVoip, this.hasSpeaker, this.hasMicrophone);
             return;
         }
+        let selfUserInfo = wfc.getUserInfo(wfc.getUserId());
+        participants = participants.filter(uid => uid !== selfUserInfo.uid);
         let callId = conversation.target + Math.floor(Math.random() * 10000);
         this.conversation = conversation;
         this.participants.push(...participants)
         this.callId = callId;
 
-        let selfUserInfo = wfc.getUserInfo(wfc.getUserId());
         let participantUserInfos = wfc.getUserInfos(participants);
         let groupMemberUserInfos;
         if (conversation.type === ConversationType.Group) {
@@ -300,7 +312,8 @@ export class AvEngineKitProxy {
             console.log('voip call is ongoing');
             return ;
         }
-        if(!this.isSupportVoip || !this.hasSpeaker || !this.hasMicrophone || (!audioOnly && !this.hasWebcam)){
+        //if (!this.isSupportVoip || !this.hasSpeaker || !this.hasMicrophone || (!audioOnly && !this.hasWebcam)) {
+        if (!this.isSupportVoip) {
             console.log('not support voip', this.isSupportVoip, this.hasSpeaker);
             return;
         }
