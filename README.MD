@@ -7,7 +7,7 @@
 | [android-chat](https://github.com/wildfirechat/android-chat) | 野火IM Android SDK源码和App源码                       |可以很方便地进行二次开发，或集成到现有应用当中      |
 | [ios-chat](https://github.com/wildfirechat/ios-chat)         | 野火IM iOS SDK源码和App源码                            |可以很方便地进行二次开发，或集成到现有应用当中      |
 | [pc-chat](https://github.com/wildfirechat/pc-chat)           | 基于[Electron](https://electronjs.org/)开发的PC平台应用 |      |
-| [web-chat](https://github.com/wildfirechat/web-chat)          | Web平台的Demo, [体验地址](http://web.wildfirechat.cn)   |      |
+| [web-chat](https://github.com/wildfirechat/web-chat)          | Web平台的Demo, [体验地址](http://web.wildfirechat.net)   |      |
 | [wx-chat](https://github.com/wildfirechat/wx-chat)           | 微信小程序平台的Demo   |      |
 | [server](https://github.com/wildfirechat/server)             | IM server                                               |      |
 | [app server](https://github.com/wildfirechat/app_server)     | 应用服务端                                          |      |
@@ -35,7 +35,7 @@
 2. 其他问题，请到[野火IM论坛](http://bbs.wildfirechat.cn/)进行交流学习
 3. 微信公众号
 
-<img src="http://static.wildfirechat.cn/wx_wfc_qrcode.jpg" width = 50% height = 50% />
+<img src="http://static.wildfirechat.net/wx_wfc_qrcode.jpg" width = 50% height = 50% />
 
 
 ## 体验
@@ -205,9 +205,9 @@ https://www.microsoft.com/zh-CN/download/details.aspx?id=48145 。注意这个�
 9. 使用```cnpm```后打包失败，在某些平台```cnpm```是会出现问题的，请使用npm。
 
 10. ```npm install``` 报```Unexpected end of JSON input while parsing near...```错误
-    
+
     如果常见问题4解决不了，可以尝试```　 npm config set registry http://registry.npm.taobao.org/ ```，然后在按常见问题4的步骤进行
-    
+
 11. 音视频相关问题，请参考以下文档
     1. [av readme](src/js/wfc/av/internal/README.MD)
     2. [音视频常见问题](https://docs.wildfirechat.cn/faq/webrtc.html?h=webrtc)

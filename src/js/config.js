@@ -10,15 +10,15 @@ export default class Config {
     // 挂断音视频通话后，音视频通话窗口延时多久关闭，单位是秒。
     static VOIP_WINDOW_CLOSE_DELAY = 2;
 
-    static DEFAULT_PORTRAIT_URL = 'https://static.wildfirechat.cn/user-fallback.png';
+    static DEFAULT_PORTRAIT_URL = 'https://static.wildfirechat.net/user-fallback.png';
 
     //默认demo应用服务的端口是8888，地址配置为 http://${应用服务器地址}:8888 上线需要切换成https的地址。
-    //static APP_SERVER = 'http://wildfirechat.cn:8888';
-    static APP_SERVER = 'https://app.wildfirechat.cn';
-    
+    //static APP_SERVER = 'http://wildfirechat.net:8888';
+    static APP_SERVER = 'https://app.wildfirechat.net';
+
     static QR_CODE_PREFIX_PC_SESSION = "wildfirechat://pcsession/";
     // turn server 配置，可以添加多个
-    static ICE_SERVERS = [{uri: 'turn:turn.wildfirechat.cn:3478', userName: 'wfchat', password: 'wfchat'}];
+    static ICE_SERVERS = [{uri: 'turn:turn.wildfirechat.net:3478', userName: 'wfchat', password: 'wfchat'}];
     static LANGUAGE = 'zh_CN';
 
     static getWFCPlatform() {
